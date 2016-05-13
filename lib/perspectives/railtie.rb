@@ -31,7 +31,9 @@ module Perspectives
         c.template_path = app.root.join('app', 'mustaches')
       end
 
-      app.assets.register_engine '.mustache', Perspectives::MustacheCompiler
+      app.config.assets.configure do |env|
+        env.register_engine '.mustache', Perspectives::MustacheCompiler
+      end
       app.config.assets.paths << Perspectives.template_path
 
       # TODO: probably bail if we're not in rails3/sprockets land...
