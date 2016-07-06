@@ -6,12 +6,19 @@ require 'generators/perspectives/scaffold/scaffold_generator.rb'
 
 module Perspectives
   class Railtie < Rails::Railtie
-    if ::Rails.version.to_s >= "3.1"
-      config.app_generators.template_engine :perspectives
-      config.app_generators.templates << File.expand_path('../../generators/perspectives/templates', __FILE__)
-    else
+    # It seems like the responder gem defines the Rails module in some way (or
+    # otherwise makes it available, i.e. the `Rails` constant is defined after
+    # responder is required in lib/perspectives.rb), which implies that this
+    # file is required, due to the conditional in lib/perspectives.rb. However,
+    # Rails.version is not defined. This previously raised an error when
+    # Rails.version was invokved, so the conditional below was modified to
+    # accomodate this edge case in a reasonable manner.
+    if defined?(::Rails.version) && ::Rails.version.to_s < "3.1"
       config.generators.template_engine :perspectives
       config.generators.templates << File.expand_path('../../generators/perspectives/templates', __FILE__)
+    else
+      config.app_generators.template_engine :perspectives
+      config.app_generators.templates << File.expand_path('../../generators/perspectives/templates', __FILE__)
     end
 
     initializer 'perspectives.railtie' do |app|
