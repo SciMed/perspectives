@@ -1,5 +1,6 @@
 require 'forwardable'
 require 'mustache'
+require 'responders'
 require 'active_support/core_ext/string/inflections'
 require 'active_support/core_ext/module/delegation'
 require 'active_support/core_ext/array/extract_options'

@@ -23,4 +23,5 @@ Gem::Specification.new do |s|
   s.add_dependency "mustache", "~> 0.99.5"
   s.add_dependency "activesupport", "~> 4.2.6"
   s.add_dependency "tilt"
+  s.add_dependency "responders", '~> 2.1.0'
 end
