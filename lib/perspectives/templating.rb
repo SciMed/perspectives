@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Perspectives
   module Templating
     def self.included(base)
@@ -30,9 +32,9 @@ module Perspectives
 
       def _template_key
         @_template_key ||=
-          _mustache.template_file.
-            sub(/^#{Regexp.escape(_mustache.template_path)}\//, '').
-            chomp(".#{_mustache.template_extension}")
+          _mustache.template_file
+                   .sub(%r{^#{Regexp.escape(_mustache.template_path)}/}, '')
+                   .chomp(".#{_mustache.template_extension}")
       end
     end
   end

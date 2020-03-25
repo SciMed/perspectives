@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'perspectives/controller_additions'
 require 'perspectives/responder'
 require 'perspectives/active_record'
@@ -12,20 +14,20 @@ module Perspectives
     # file is required, due to the conditional in lib/perspectives.rb. However,
     # Rails.version is not defined. This previously raised an error when
     # Rails.version was invokved, so the conditional below was modified to
-    # accomodate this edge case in a reasonable manner.
-    if defined?(::Rails.version) && ::Rails.version.to_s < "3.1"
+    # accommodate this edge case in a reasonable manner.
+    if defined?(::Rails.version) && ::Rails.version.to_s < '3.1'
       config.generators.template_engine :perspectives
-      config.generators.templates << File.expand_path('../../generators/perspectives/templates', __FILE__)
+      config.generators.templates << File.expand_path('../generators/perspectives/templates', __dir__)
     else
       config.app_generators.template_engine :perspectives
-      config.app_generators.templates << File.expand_path('../../generators/perspectives/templates', __FILE__)
+      config.app_generators.templates << File.expand_path('../generators/perspectives/templates', __dir__)
     end
 
     initializer 'perspectives.railtie' do |app|
       app.config.autoload_paths += ['app/perspectives']
       app.config.watchable_dirs['app/mustaches'] = [:mustache]
 
-      app.config.assets.paths << File.expand_path('../../../vendor/assets/javascripts', __FILE__)
+      app.config.assets.paths << File.expand_path('../../vendor/assets/javascripts', __dir__)
 
       Perspectives::Base.class_eval do
         include ActionView::Helpers

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Perspectives
   module ControllerAdditions
     def self.included(base)
-      base.before_filter :set_perspectives_version
+      base.before_action :set_perspectives_version
       base.helper_method :assets_meta_tag
       base.class_attribute :perspectives_enabled_actions
       delegate :perspectives_enabled_actions, to: 'self.class'
@@ -44,6 +46,7 @@ module Perspectives
     end
 
     def respond_with(*resources, &block)
+      binding.pry
       return super unless wrap_perspective? && resources.first.is_a?(Perspectives::Base)
 
       wrapped = wrap_perspective(resources.shift)
@@ -60,7 +63,7 @@ module Perspectives
     end
 
     def assets_meta_tag
-      view_context.content_tag(:meta, nil, :'http-equiv' => 'x-perspectives-version', content: assets_version)
+      view_context.content_tag(:meta, nil, 'http-equiv': 'x-perspectives-version', content: assets_version)
     end
 
     def set_perspectives_version
@@ -86,7 +89,7 @@ module Perspectives
         end
       end
     end
-    alias_method :wrap_perspective?, :perspectives_wrapper
+    alias wrap_perspective? perspectives_wrapper
 
     def wrap_perspective(unwrapped_perspective)
       perspective_klass, options = *perspectives_wrapper
@@ -123,7 +126,7 @@ module Perspectives
         options[:only] = Array(options[:only]).map(&:to_s) if options[:only]
         options[:except] = Array(options[:except]).map(&:to_s) if options[:except]
 
-        options[:if] ||= lambda { |c| c.params[perspective_klass.id_param].present? }
+        options[:if] ||= ->(c) { c.params[perspective_klass.id_param].present? }
         options[:args] ||= lambda do |controller, perspective|
           {
             perspective_klass.active_record_klass.name.underscore => perspective_klass.active_record_klass.find(controller.params[perspective_klass.id_param]),

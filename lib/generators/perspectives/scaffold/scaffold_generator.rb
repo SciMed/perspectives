@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails/generators'
 require 'rails/generators/resource_helpers'
 
@@ -6,9 +8,9 @@ module Perspectives
     class ScaffoldGenerator < Rails::Generators::NamedBase
       include Rails::Generators::ResourceHelpers
 
-      argument :attributes, type: :array, default: [], banner: "field:type field:type"
+      argument :attributes, type: :array, default: [], banner: 'field:type field:type'
 
-      source_root File.expand_path("../templates", __FILE__)
+      source_root File.expand_path('templates', __dir__)
 
       def create_root_folders
         empty_directory mustache_path
@@ -35,7 +37,7 @@ module Perspectives
       protected
 
       def available_views
-        %w(index tiny show new edit)
+        %w[index tiny show new edit]
       end
 
       def handler
@@ -43,11 +45,11 @@ module Perspectives
       end
 
       def mustache_path(filename = nil)
-        File.join(*["app/mustaches", controller_file_path, filename].compact)
+        File.join(*['app/mustaches', controller_file_path, filename].compact)
       end
 
       def perspectives_path(filename = nil)
-        File.join(*["app/perspectives", controller_file_path, filename].compact)
+        File.join(*['app/perspectives', controller_file_path, filename].compact)
       end
     end
   end

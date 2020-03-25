@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Perspectives
   module Params
     def self.included(base)
@@ -12,7 +14,8 @@ module Perspectives
     end
 
     def initialize(context = {}, params = {})
-      raise ArgumentError, "Params is not a hash!" unless params.is_a?(Hash)
+      raise ArgumentError, 'Params is not a hash!' unless params.is_a?(Hash)
+
       @_params = params.symbolize_keys
       @context = context
       assert_valid_params!
@@ -21,7 +24,7 @@ module Perspectives
     private
 
     def assert_valid_params!
-      missing = _required_params.select { |l| !_params.key?(l) }
+      missing = _required_params.reject { |l| _params.key?(l) }
       unknown = _params.keys - (_required_params + _optional_params)
 
       if missing.any?

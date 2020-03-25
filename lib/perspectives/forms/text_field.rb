@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Perspectives::Forms
   class TextField < Base
     param :object, :field

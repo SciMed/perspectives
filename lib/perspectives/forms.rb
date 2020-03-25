@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Perspectives
   module Forms
   end

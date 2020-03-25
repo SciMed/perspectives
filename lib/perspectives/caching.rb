@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Perspectives
   module Caching
     def self.included(base)
@@ -65,7 +67,7 @@ module Perspectives
 
     module ClassMethods
       def cache(&block)
-        raise ArgumentError, "No block given" unless block_given?
+        raise ArgumentError, 'No block given' unless block_given?
 
         self._cache_key_additions_block = block
       end

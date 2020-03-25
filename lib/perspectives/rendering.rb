@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module Perspectives
   module Rendering
-    def as_json(options = {})
+    def as_json(_options = {})
       _property_map.merge(_template_key: _template_key)
     end
 
@@ -8,8 +10,16 @@ module Perspectives
       _mustache.render(_property_map).html_safe
     end
 
-    def render; render_html; end
-    def to_html; render_html; end
-    def to_s; render_html; end
+    def render
+      render_html
+    end
+
+    def to_html
+      render_html
+    end
+
+    def to_s
+      render_html
+    end
   end
 end

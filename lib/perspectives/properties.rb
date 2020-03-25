@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Perspectives
   module Properties
     CantUseLambdas = Class.new(StandardError)
@@ -32,6 +34,7 @@ module Perspectives
       def property(name, *names, &block)
         unless names.empty?
           raise ArgumentError, "Can't define multiple properties and pass a block" if block_given?
+
           return names.push(name).each(&public_method(:property))
         end
 
@@ -45,7 +48,8 @@ module Perspectives
       end
 
       def nested(name, args = {}, &block)
-        locals, options = args, {}
+        locals = args
+        options = {}
 
         if args[:locals]
           locals = args[:locals]
@@ -58,9 +62,9 @@ module Perspectives
       def nested_collection(name, *args, &block)
         options = args.extract_options!
         collection = options.fetch(:collection, args.first)
-        raise ArgumentError, "You must either pass in a collection, or pass a collection option" unless collection
+        raise ArgumentError, 'You must either pass in a collection, or pass a collection option' unless collection
 
-        _setup_nested(name, options.fetch(:locals, {}), options.merge!(:collection => collection), &block)
+        _setup_nested(name, options.fetch(:locals, {}), options.merge!(collection: collection), &block)
       end
 
       def delegate_property(*props)
@@ -80,7 +84,8 @@ module Perspectives
       private
 
       def _setup_nested(name, locals, options, &block)
-        name_str, name_sym = name.to_s, name.to_sym
+        name_str = name.to_s
+        name_sym = name.to_sym
 
         prop_name = options.fetch(:property, _default_property_name(name_str, options)).to_sym
 
@@ -106,7 +111,7 @@ module Perspectives
 
             if options.key?(:collection)
               collection = instance_exec(self, &options[:collection])
-              return unless collection.present?
+              return if collection.blank?
 
               as = options.fetch(:as, collection.first.class.base_class.name.downcase).to_sym
               Collection.new(collection.map { |o| klass.new(context, realized_locals.merge(as => o)) })

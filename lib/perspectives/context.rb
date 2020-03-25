@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Perspectives
   module Context
     def respond_to?(method, include_private = false)

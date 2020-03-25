@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Perspectives
   class Collection
     include ::Enumerable
@@ -13,9 +15,10 @@ module Perspectives
     def to_html
       perspectives.map(&:to_html).join
     end
-    alias_method :to_s, :to_html
+    alias to_s to_html
 
     private
+
     attr_reader :perspectives
   end
 end

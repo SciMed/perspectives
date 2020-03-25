@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Perspectives
   module Memoization
     def self.included(base)

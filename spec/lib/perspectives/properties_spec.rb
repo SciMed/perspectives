@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Perspectives::Properties do
@@ -20,12 +22,12 @@ describe Perspectives::Properties do
   let(:context) { {} }
   let(:name) { 'Andrew Warner' }
   let(:blog_url) { 'a-warner.github.io' }
-  let(:user) { OpenStruct.new :name => name }
+  let(:user) { OpenStruct.new name: name }
 
-  let(:params) { {:user => user} }
+  let(:params) { { user: user } }
 
   subject { ::Users::Properties.new(context, params) }
 
-  its(:name) { should == 'Andrew Warner' }
-  its(:profile) { should_not be_nil }
+  it(:name) { should == 'Andrew Warner' }
+  it(:profile) { should_not be_nil }
 end
